@@ -1,5 +1,0 @@
-#!/bin/bash
-set -e
-
-echo "[*] Setting Plymouth theme to homeworld..."
-plymouth-set-default-theme -R homeworld

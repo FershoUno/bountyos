@@ -1,2 +1,0 @@
-cp live-image-arm64.hybrid.iso /home/sirat/Desktop/bos.iso
-chmod 777 /home/sirat/Desktop/bos.iso

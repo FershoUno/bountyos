@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Set XFCE Theme
-Exec=sh -c 'sleep 2; xfconf-query -c xsettings -p /Net/ThemeName -s "Flat-Remix-GTK-Green-Darkest"; xfconf-query -c xsettings -p /Net/IconThemeName -s "Papirus"'
-OnlyShowIn=XFCE;
-NoDisplay=true

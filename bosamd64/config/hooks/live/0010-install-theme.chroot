@@ -1,7 +1,0 @@
-#!/bin/bash
-set -e
-
-# Clone and install GTK theme
-git clone https://github.com/daniruiz/flat-remix-gtk.git /tmp/flat-remix-gtk
-cp -r /tmp/flat-remix-gtk/themes/* /usr/share/themes/
-rm -rf /tmp/flat-remix-gtk

@@ -1,6 +1,0 @@
-#!/bin/bash
-set -e
-
-echo "[*] Overwriting Plymouth logo..."
-cp /usr/share/plymouth/themes/homeworld/logo.png /tmp/original-logo-backup.png || true
-cp /logo/logo.png /usr/share/plymouth/themes/homeworld/logo.png
