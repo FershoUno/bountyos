@@ -1,16 +1,7 @@
 # bountyos
 
-This branch is the unmodified BountyOS source code.
+In this "CUSTOM" branch, all the changes that will be used as "suggestions" to improve the assembly of BountyOS will be developed.  
 
-The source code was shared by the project owner himself.
-Sirat Sami (analyz3r)
+The changes are only focused on the AMD64 architecture.  
 
-## "CUSTOM" Branch
-
-Please switch from the "main" branch to the "custom" branch to learn about my suggestions and improvements to this repository.
-
-The goal is to improve the project to enhance the build and deployment of the BountyOS distribution.
-
-## Reference
-
-https://github.com/BountyOS/bountyos.github.io/issues/3
+The bosamd64 directory was extracted from the Archive.zip file and removed because it is not needed for this branch.

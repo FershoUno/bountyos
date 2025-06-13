@@ -1,0 +1,14 @@
+# Kernel and live system
+linux-image-amd64
+live-boot
+live-config
+grub-efi-amd64
+zsh
+git
+grub-common
+grub2-common
+grub-efi
+task-xfce-desktop
+lightdm
+vim
+curl
