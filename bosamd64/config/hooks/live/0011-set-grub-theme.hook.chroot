@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+
+echo 'GRUB_THEME="/boot/grub/themes/dedsec/theme.txt"' >> /etc/default/grub

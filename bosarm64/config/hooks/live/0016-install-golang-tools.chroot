@@ -1,0 +1,74 @@
+#!/bin/bash
+
+set -e
+
+# Create a directory
+mkdir -p /tmp/golang-tools
+cd /tmp/golang-tools
+
+# ----------------------
+# Install Golang (ARM64)
+# ----------------------
+echo "[*] Installing Golang..."
+wget https://go.dev/dl/go1.24.0.linux-arm64.tar.gz
+sudo tar -C /usr/local -xzf go1.24.0.linux-arm64.tar.gz
+echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> ~/.bashrc
+source ~/.bashrc
+
+# ----------------------
+# Install Go Tools
+# ----------------------
+echo "[*] Installing Go tools..."
+
+go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+go install -v github.com/Hackmanit/Web-Cache-Vulnerability-Scanner@latest
+go install -v github.com/jaeles-project/gospider@latest
+go install -v github.com/ffuf/ffuf/v2@latest
+go install -v github.com/tomnomnom/assetfinder@latest
+go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+go install -v github.com/lc/gau/v2/cmd/gau@latest
+go install -v github.com/tomnomnom/waybackurls@latest
+go install -v github.com/sensepost/gowitness@latest
+go install -v github.com/hakluke/hakrawler@latest
+go install -v github.com/tomnomnom/httprobe@latest
+go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
+apt install libpcap-dev -y
+go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
+go install -v github.com/tomnomnom/unfurl@latest
+go install -v github.com/tomnomnom/anew@latest
+go install -v github.com/hahwul/dalfox/v2@latest
+CGO_ENABLED=1 go install github.com/projectdiscovery/katana/cmd/katana@latest
+go install -v github.com/projectdiscovery/uncover/cmd/uncover@latest
+go install -v github.com/projectdiscovery/shuffledns/cmd/shuffledns@latest
+go install -v github.com/d3mondev/puredns/v2@latest
+go install -v github.com/ImAyrix/cut-cdn@latest
+
+# --------------------------
+# Install cloudbrute (DEB)
+# --------------------------
+echo "[*] Installing cloudbrute..."
+wget https://kali.download/kali/pool/main/c/cloudbrute/cloudbrute_1.0.7-0kali2_arm64.deb
+sudo apt install -y ./cloudbrute_1.0.7-0kali2_arm64.deb
+
+# --------------------------
+# Install S3Scanner
+# --------------------------
+echo "[*] Installing S3Scanner..."
+git clone https://github.com/sa7mon/S3Scanner.git
+cd S3Scanner
+go build -o s3scanner .
+sudo mv s3scanner /usr/bin/
+chmod +x /usr/bin/s3scanner
+cd ..
+
+# --------------------------
+# Copy Go binaries to /usr/bin
+# --------------------------
+echo "[*] Copying Go tools to /usr/bin..."
+sudo cp ~/go/bin/* /usr/bin/
+
+echo "[✓] All tools installed successfully."
+
+cd ~
+rm -r /tmp/golang-tools

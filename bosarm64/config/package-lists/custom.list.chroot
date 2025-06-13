@@ -1,0 +1,15 @@
+ruby-full
+build-essential
+curl
+gem
+git
+gobuster
+grub-common
+grub-efi
+grub2-common
+inkscape
+masscan
+netcat-traditional
+nmap
+papirus-icon-theme
+wget

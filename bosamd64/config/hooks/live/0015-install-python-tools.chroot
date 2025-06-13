@@ -1,0 +1,214 @@
+#!/bin/bash
+
+set -e
+mkdir -p /tmp/python-tools
+cd /tmp/python-tools
+
+apt install python3 python3-pip -y || true
+
+mkdir -p python-tools
+cd python-tools || exit 1
+
+# Function to run a command and not fail the script
+run_safe() {
+    echo -e "\n[*] Running: $*"
+    { "$@"; } || echo "[!] Command failed, but continuing..."
+}
+
+# recon-ng
+run_safe git clone https://github.com/lanmaster53/recon-ng.git
+run_safe pip3 install -r recon-ng/REQUIREMENTS --break-system-packages
+run_safe mv recon-ng /usr/bin/recon-ng-dir
+cat << 'EOF' > /usr/bin/recon-ng
+#!/bin/bash
+cd /usr/bin/recon-ng-dir || exit
+python3 recon-ng "$@"
+EOF
+chmod +x /usr/bin/recon-ng
+
+cat << 'EOF' > /usr/bin/recon-cli
+#!/bin/bash
+cd /usr/bin/recon-ng-dir || exit
+python3 recon-cli "$@"
+EOF
+chmod +x /usr/bin/recon-cli
+
+cat << 'EOF' > /usr/bin/recon-web
+#!/bin/bash
+cd /usr/bin/recon-ng-dir || exit
+python3 recon-ng "$@"
+EOF
+chmod +x /usr/bin/recon-web
+
+# sherlock
+run_safe git clone https://github.com/sherlock-project/sherlock.git
+run_safe pip3 install sherlock-project --break-system-packages
+run_safe cp sherlock/sherlock_project/sherlock.py /usr/bin/sherlock
+chmod +x /usr/bin/sherlock || true
+
+# metagoofil
+run_safe git clone https://github.com/opsdisk/metagoofil
+run_safe pip3 install -r metagoofil/requirements.txt --break-system-packages
+run_safe sed -i '1s|^#!/usr/bin/env python$|#!/usr/bin/env python3|' metagoofil/metagoofil.py
+run_safe cp metagoofil/metagoofil.py /usr/bin/metagoofil
+chmod +x /usr/bin/metagoofil || true
+
+# hash-identifier
+run_safe wget https://gitlab.com/kalilinux/packages/hash-identifier/-/raw/kali/master/hash-id.py
+run_safe sed -i '1s|^#!/usr/bin/env python\r$|#!/usr/bin/env python3|' hash-id.py
+run_safe cp hash-id.py /usr/bin/hash-identifier
+chmod +x /usr/bin/hash-identifier || true
+
+# fierce
+run_safe pip3 install fierce --break-system-packages
+run_safe git clone https://salsa.debian.org/pkg-security-team/fierce.git
+run_safe cp fierce/fierce/fierce.py /usr/bin/fierce
+chmod +x /usr/bin/fierce || true
+
+# altdns
+run_safe pip3 install py-altdns --break-system-packages
+run_safe git clone https://salsa.debian.org/pkg-security-team/altdns.git
+cd altdns || true
+run_safe pip3 install -r requirements.txt --break-system-packages
+run_safe python3 setup.py install
+run_safe pip3 install tldextract==2.2.3 --break-system-packages
+cd ../
+
+# arjun
+run_safe git clone https://salsa.debian.org/pkg-security-team/arjun.git
+cd arjun || true
+run_safe pip3 install arjun --break-system-packages
+run_safe python3 setup.py install
+cd ../
+
+# getsploit
+run_safe git clone https://gitlab.com/kalilinux/packages/getsploit.git
+cd getsploit || true
+run_safe python3 setup.py install
+run_safe pip3 install appdirs clint --break-system-packages
+cd ../
+
+# h8mail
+run_safe git clone https://gitlab.com/kalilinux/packages/h8mail.git
+cd h8mail || true
+run_safe python3 setup.py install
+cd ../
+
+# hosthunter
+run_safe git clone https://github.com/SpiderLabs/HostHunter.git
+run_safe pip3 install -r HostHunter/requirements.txt --break-system-packages
+run_safe cp HostHunter/hosthunter.py /usr/bin/hosthunter
+chmod +x /usr/bin/hosthunter || true
+
+# hostsman
+run_safe git clone https://github.com/qszhuan/hostsman.git
+run_safe pip3 install -r hostsman/requirements.txt --break-system-packages
+mv hostsman /usr/bin/hostsman-dir || true
+cat << 'EOF' > /usr/bin/hostsman
+#!/bin/bash
+cd /usr/bin/hostsman-dir || exit
+python3 hostsman.py "$@"
+EOF
+chmod +x /usr/bin/hostsman || true
+
+# linkedin2username
+run_safe git clone https://github.com/initstring/linkedin2username.git
+run_safe pip3 install -r linkedin2username/requirements.txt --break-system-packages
+run_safe cp linkedin2username/linkedin2username.py /usr/bin/linkedin2username
+chmod +x /usr/bin/linkedin2username || true
+
+# spiderfoot
+run_safe git clone https://github.com/smicallef/spiderfoot.git
+cd spiderfoot || true
+run_safe pip3 install -r requirements.txt --break-system-packages
+cd ../
+run_safe cp -r spiderfoot /usr/bin/spiderfoot-dir
+cat << 'EOF' > /usr/bin/spiderfoot
+#!/bin/bash
+cd /usr/bin/spiderfoot-dir || exit
+python3 sf.py "$@"
+EOF
+chmod +x /usr/bin/spiderfoot || true
+
+# theHarvester
+run_safe git clone https://github.com/laramies/theHarvester.git
+run_safe pip3 install -r theHarvester/requirements.txt --break-system-packages
+run_safe cp -r theHarvester /usr/bin/theHarvester-dir
+cat << 'EOF' > /usr/bin/theHarvester
+#!/bin/bash
+cd /usr/bin/theHarvester-dir || exit
+python3 theHarvester.py "$@"
+EOF
+chmod +x /usr/bin/theHarvester || true
+
+# linkfinder
+run_safe git clone https://github.com/GerbenJavado/LinkFinder.git
+run_safe pip3 install -r LinkFinder/requirements.txt --break-system-packages
+run_safe sed -i 's|^#!/usr/bin/env python$|#!/usr/bin/env python3|' LinkFinder/linkfinder.py
+run_safe cp LinkFinder/linkfinder.py /usr/bin/linkfinder
+chmod +x /usr/bin/linkfinder || true
+
+# smuggler
+run_safe git clone https://github.com/defparam/smuggler.git
+run_safe cp -r smuggler /usr/bin/smuggler-dir
+cat << 'EOF' > /usr/bin/smuggler
+#!/bin/bash
+cd /usr/bin/smuggler-dir || exit
+python3 smuggler.py "$@"
+EOF
+chmod +x /usr/bin/smuggler || true
+
+# 403bypasser
+run_safe git clone https://github.com/yunemse48/403bypasser.git
+run_safe sed -i '1i #!/usr/bin/env python3' 403bypasser/403bypasser.py
+run_safe pip3 install -r 403bypasser/requirements.txt --break-system-packages
+run_safe cp -r 403bypasser /usr/bin/403bypasser-dir
+cat << 'EOF' > /usr/bin/403bypasser
+#!/bin/bash
+cd /usr/bin/403bypasser-dir || exit
+python3 403bypasser.py "$@"
+EOF
+chmod +x /usr/bin/403bypasser || true
+
+# uro
+run_safe git clone https://github.com/s0md3v/uro.git
+run_safe pip3 install uro --break-system-packages
+run_safe python3 uro/setup.py install
+run_safe mv uro/uro/uro.py uro/uro/run_uro.py
+run_safe cp -r uro /usr/bin/uro-dir
+cat << 'EOF' > /usr/bin/uro
+#!/bin/bash
+cd /usr/bin/uro-dir/uro || exit
+python3 run_uro.py "$@"
+EOF
+chmod +x /usr/bin/uro || true
+
+# paramspider
+run_safe git clone https://github.com/devanshbatham/ParamSpider.git
+cd ParamSpider || true
+run_safe pip3 install . --break-system-packages
+run_safe python3 setup.py install
+cd ../
+
+# asnlookup
+run_safe git clone https://github.com/yassineaboukir/Asnlookup
+run_safe pip3 install -r Asnlookup/requirements.txt --break-system-packages
+run_safe cp -r Asnlookup /usr/bin/Asnlookup-dir
+cat << 'EOF' > /usr/bin/asnlookup
+#!/bin/bash
+cd /usr/bin/Asnlookup-dir || exit
+python3 asnlookup.py "$@"
+EOF
+chmod +x /usr/bin/asnlookup || true
+
+# dnsvalidator
+run_safe git clone https://github.com/vortexau/dnsvalidator.git
+run_safe pip3 install -r dnsvalidator/requirements.txt --break-system-packages
+cd dnsvalidator || true
+run_safe python3 setup.py install
+cd ../
+
+echo -e "\n[+] All tools attempted to install. Check logs for any failures."
+
+cd ~
+rm -r /tmp/python-tools
